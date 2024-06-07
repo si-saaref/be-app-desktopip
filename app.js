@@ -7,6 +7,7 @@ const helmet = require('helmet');
 const { rateLimit } = require('express-rate-limit');
 
 const authRouter = require('./app/api/auth/router');
+const filmRouter = require('./app/api/films/router');
 
 const app = express();
 const apiVersion = '/api/v1';
@@ -27,5 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(`${apiVersion}/auth`, limiter, authRouter);
+app.use(`${apiVersion}/film`, limiter, filmRouter);
 
 module.exports = app;
