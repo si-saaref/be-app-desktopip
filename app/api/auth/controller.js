@@ -42,4 +42,45 @@ module.exports = {
 			res.status(500).json({ message: error.message || 'Internal Message Error', status: 500 });
 		}
 	},
+	login: async (req, res) => {
+		try {
+			const { email, password } = req.body;
+			const userPayload = await User.findOne({
+				where: {
+					email: email,
+				},
+			});
+			if (!userPayload) {
+				res.status(400).json({ message: "Email and Password didn't match", status: 400 });
+				return;
+			} else {
+				const checkPassword = bcrypt.compareSync(password, userPayload.password);
+				if (!checkPassword) {
+					res.status(400).json({ message: "Email and Password didn't match", status: 400 });
+					return;
+				}
+			}
+			const token = jwt.sign(
+				{
+					user: {
+						id: userPayload.id,
+						email: userPayload.email,
+						firstName: userPayload.firstName,
+						lastName: userPayload.lastName,
+					},
+				},
+				'secret',
+				{
+					expiresIn: '24h',
+				}
+			);
+
+			const dataPayload = {
+				token,
+			};
+			res.status(200).json({ message: 'Login successfully woi', status: 200, data: dataPayload });
+		} catch (error) {
+			res.status(500).json({ message: error.message || 'Internal Message Error', status: 500 });
+		}
+	},
 };
