@@ -70,4 +70,47 @@ module.exports = {
 			res.status(500).json({ message: error.message || 'Internal Message Error', status: 500 });
 		}
 	},
+	updateFilm: async (req, res) => {
+		try {
+			const { title, description, image_thumbnail } = req.body;
+			const { idFilm } = req.params;
+
+			const filmPayload = await Film.findOne({
+				where: {
+					id: idFilm,
+				},
+			});
+			if (!filmPayload) {
+				res.status(404).json({
+					message: "Couldn't find the film. Please try again",
+					status: 404,
+				});
+				return;
+			}
+
+			if (!title) {
+				res.status(406).json({ message: 'Title should not be empty', status: 406 });
+				return;
+			}
+			if (!description) {
+				res.status(406).json({ message: 'Description should not be empty', status: 406 });
+				return;
+			}
+			if (!image_thumbnail) {
+				res.status(406).json({ message: 'Image should not be empty', status: 406 });
+				return;
+			}
+
+			const updatedFilmPayload = await filmPayload.update({
+				title,
+				description,
+				image_thumbnail,
+			});
+			res
+				.status(200)
+				.json({ message: 'Successfully Updated Film', status: 200, data: updatedFilmPayload });
+		} catch (error) {
+			res.status(500).json({ message: error.message || 'Internal Message Error', status: 500 });
+		}
+	},
 };
