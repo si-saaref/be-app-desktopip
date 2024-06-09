@@ -28,6 +28,6 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, 'public')));
 
 app.use(`${apiVersion}/auth`, authRouter);
-app.use(`${apiVersion}/film`, filmRouter);
+app.use(`${apiVersion}/films`, filmRouter);
 
 module.exports = app;

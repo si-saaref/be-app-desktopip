@@ -1,4 +1,3 @@
-const chalk = require('chalk');
 const jwt = require('jsonwebtoken');
 const { User } = require('../../db/models');
 
@@ -7,7 +6,7 @@ module.exports = {
 		try {
 			const token = req.headers.authorization ? req.headers.authorization.split(' ')[1] : null;
 			const userPayload = jwt.verify(token, 'secret');
-			const { id, ...args } = userPayload.user;
+			const { id, ...args } = userPayload?.user;
 
 			if (!userPayload) {
 				throw new Error();
@@ -16,7 +15,10 @@ module.exports = {
 					where: { id },
 				});
 				if (!checkUser) {
-					res.status(403).json({ message: 'Astaughfirullah anda siapa?', status: 403 });
+					res.status(403).json({
+						message: 'You have to login first to continue with this request',
+						status: 403,
+					});
 				} else {
 					req.user = { ...args, userId: id };
 					next();
