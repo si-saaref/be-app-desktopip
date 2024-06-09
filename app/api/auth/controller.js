@@ -8,6 +8,7 @@ module.exports = {
 		try {
 			const { username, email, password } = req.body;
 			try {
+				console.log(req.body);
 				await usernameChecker(username?.trim());
 				emailChecker(email?.trim());
 				passwordChecker(password?.trim());
@@ -32,8 +33,8 @@ module.exports = {
 
 					delete userPayload.dataValues.password;
 					res
-						.status(200)
-						.json({ message: 'Register successfully', status: 200, data: userPayload });
+						.status(201)
+						.json({ message: 'User account has been created', status: 201, data: userPayload });
 				}
 			} catch (error) {
 				res.status(400).json({ message: error.message, status: 400 });
@@ -51,7 +52,7 @@ module.exports = {
 				},
 			});
 			if (!userPayload) {
-				res.status(400).json({ message: "Email and Password didn't match", status: 400 });
+				res.status(404).json({ message: "User does't exist. Please register first", status: 404 });
 				return;
 			} else {
 				const checkPassword = bcrypt.compareSync(password, userPayload.password);
@@ -78,7 +79,7 @@ module.exports = {
 			const dataPayload = {
 				token,
 			};
-			res.status(200).json({ message: 'Login successfully woi', status: 200, data: dataPayload });
+			res.status(200).json({ message: 'Login successfully', status: 200, data: dataPayload });
 		} catch (error) {
 			res.status(500).json({ message: error.message || 'Internal Message Error', status: 500 });
 		}
