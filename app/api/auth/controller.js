@@ -8,7 +8,6 @@ module.exports = {
 		try {
 			const { username, email, password } = req.body;
 			try {
-				console.log(req.body);
 				await usernameChecker(username?.trim());
 				emailChecker(email?.trim());
 				passwordChecker(password?.trim());
