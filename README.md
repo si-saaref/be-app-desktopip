@@ -1,4 +1,4 @@
-# BE Mini Application for Henan AM Task
+# BE Application
 
 This application using NodeJS, Express as the framework, PostgreSQL as the database and Sequelize as the ORM
 
@@ -140,10 +140,10 @@ Example Response
 }
 ```
 
-#### Add One Film
+#### Get One Film
 
 ```http
-  POST /api/v1/films
+  GET /api/v1/films/:idFilm
 ```
 
 ```bash
@@ -152,7 +152,7 @@ Payload Params
 
 Example Response
 {
-    "message": "Successfully Get All Films Data",
+    "message": "Successfully Get Film Data",
     "status": 200,
     "data": {
         "id": 2,

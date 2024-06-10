@@ -31,7 +31,7 @@ module.exports = {
 			}
 			res
 				.status(200)
-				.json({ message: 'Successfully Get All Films Data', status: 200, data: filmPayload });
+				.json({ message: 'Successfully Get Film Data', status: 200, data: filmPayload });
 		} catch (error) {
 			res.status(500).json({ message: error.message || 'Internal Message Error', status: 500 });
 		}
